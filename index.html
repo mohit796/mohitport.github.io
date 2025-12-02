@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+
+<head>
+    <!-- Basic Meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta -->
+    <title id="page-title">Mohit Kumar | Software Engineer</title>
+    <meta name="description"
+        content="Portfolio of Mohit Kumar — Software Engineer specializing in Data Analytics, Python, Business Analytics, Data Engineering, and modern web technologies." />
+    <meta name="keywords"
+        content="Mohit Kumar, portfolio, software engineer, Data Analyst, web developer, python developer, data engineer, resume, projects" />
+    <meta name="author" content="Mohit Kumar" />
+
+    <!-- Theme Color (Browser Top Bar) -->
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Portfolio | Mohit Kumar" />
+    <meta property="og:description"
+        content="Explore the portfolio of Mohit Kumar — Software Engineer focused on Data Analytics, Data Engineering, Business Analytics, and AI-powered solutions." />
+    <meta property="og:image" content="https://i.ibb.co/xm8VgCr/prophile_mohit.png" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:url" content="https://mohitport.github.io/" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Portfolio | Mohit Kumar" />
+    <meta name="twitter:description"
+        content="Discover Mohit Kumar's work in Data Analytics, Business Analytics and Data Engineering." />
+    <meta name="twitter:image" content="https://i.ibb.co/xm8VgCr/prophile_mohit.png" />
+
+    <!-- Schema.org Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Person",
+      "name": "Mohit Kumar",
+      "url": "https://mohitport.github.io/",
+      "image": "https://i.ibb.co/xm8VgCr/prophile_mohit.png",
+      "jobTitle": "Data Analyst",
+      "description": "Software Engineer specializing in Data Analytics, Python, and Data Engineering.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bihar",
+        "addressCountry": "India"
+      }
+    }
+    </script>
+
+    <!-- Performance Preloads -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Favicon -->
+    <link id="favicon" rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-png" />
+
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        primary: '#0d9488',
+                        dark: '#0f172a',
+                        light: '#f9fafb',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-nav {
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dark .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-scrolled {
+            box-shadow: 0 10px 30px -15px rgba(15, 23, 42, 0.6);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #2dd4bf, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(45, 212, 191, 0.3);
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* ---- SKILL CARD SUPER ANIMATION 😎 ---- */
+        .skill-card {
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.25), transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.25), transparent 60%);
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+            transform: translateY(0) scale(1.05);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px) scale(1.03) rotate3d(1, 1, 0, 6deg);
+            box-shadow: 0 18px 45px -18px rgba(45, 212, 191, 0.6);
+            border-color: rgba(45, 212, 191, 0.6) !important;
+        }
+
+        .skill-icon {
+            transition: transform 0.4s ease;
+            text-shadow: 0 0 18px rgba(45, 212, 191, 0.5);
+        }
+
+        .skill-card:hover .skill-icon {
+            transform: scale(1.18) rotate(-3deg);
+        }
+
+        /* Space Toast Notification */
+        #space-toast {
+            visibility: hidden;
+            min-width: 300px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-left: 4px solid #0d9488;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            right: 20px;
+            bottom: 30px;
+            font-size: 15px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), visibility 0.5s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #space-toast.show {
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        #space-toast.error {
+            border-left-color: #ef4444;
+        }
+
+        #space-toast.success {
+            border-left-color: #10b981;
+        }
+
+        /* ------- CONTACT FORM EXTRA BEAUTY 😍 ------- */
+        .contact-glow {
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.25), transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.30), transparent 55%);
+            opacity: 0.9;
+            filter: blur(30px);
+            z-index: -1;
+        }
+        /* ---- HERO CTA BUTTON GLOW + SHINE ---- */
+.hero-btn-glow {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.hero-btn-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg,
+        transparent,
+        rgba(255, 255, 255, 0.55),
+        transparent);
+    transform: translateX(-120%);
+    pointer-events: none;
+}
+
+.hero-btn-glow:hover::before {
+    transform: translateX(120%);
+    transition: transform 0.7s ease;
+}
+
+.hero-btn-glow:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 18px 40px -15px rgba(56, 189, 248, 0.7);
+    filter: brightness(1.05);
+}
+
+/* Secondary GitHub button thoda smooth hover */
+.hero-btn-outline {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.hero-btn-outline:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.8);
+}
+
+/* Text under buttons */
+.hero-cta-note {
+    letter-spacing: 0.12em;
+}
+
+/* ---- ABOUT ROLE ANIMATED TITLE ---- */
+
+
+        /* ---- ABOUT ROLE ANIMATED TITLE ---- */
+        .about-title-animated {
+            background: linear-gradient(90deg,
+                    #22c55e,
+                    #0ea5e9,
+                    #6366f1,
+                    #a855f7,
+                    #22c55e);
+            background-size: 250% 250%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: aboutGradient 6s ease-in-out infinite;
+            text-shadow: 0 0 18px rgba(56, 189, 248, 0.35);
+        }
+
+        @keyframes aboutGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+
+</head>
+
+<body
+    class="bg-gray-50 dark:bg-dark text-gray-800 dark:text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-primary selection:text-white transition-colors duration-300 relative">
+
+    <!-- Particle Canvas Background -->
+    <canvas id="particle-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav top-0 start-0" id="main-nav">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#home" class="flex items-center space-x-2 group">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-400 to-blue-500 flex items-center justify-center text-white font-bold text-xl group-hover:rotate-12 transition-transform">
+                    M
+                </div>
+                <span class="self-center text-2xl font-bold whitespace-nowrap text-gray-900 dark:text-white">Mohit<span
+                        class="text-teal-400">.</span></span>
+            </a>
+            <div class="flex items-center md:order-2 gap-2">
+                <button id="theme-toggle" type="button"
+                    class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 transition-all">
+                    <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+                    <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+                </button>
+                <button data-collapse-toggle="navbar-default" type="button"
+                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none"
+                    aria-controls="navbar-default" aria-expanded="false" id="menu-btn">
+                    <span class="sr-only">Open main menu</span>
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            <div class="hidden w-full md:block md:w-auto md:order-1" id="navbar-default">
+                <ul
+                    class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+                    <li><a href="#home"
+                            class="block py-2 px-3 text-gray-900 hover:text-teal-400 dark:text-gray-300 dark:hover:text-teal-400 md:border-0 md:p-0">Home</a>
+                    </li>
+                    <li><a href="#about"
+                            class="block py-2 px-3 text-gray-900 hover:text-teal-400 dark:text-gray-300 dark:hover:text-teal-400 md:border-0 md:p-0">About</a>
+                    </li>
+                    <li><a href="#skills"
+                            class="block py-2 px-3 text-gray-900 hover:text-teal-400 dark:text-gray-300 dark:hover:text-teal-400 md:border-0 md:p-0">Skills</a>
+                    </li>
+                    <li><a href="#education"
+                            class="block py-2 px-3 text-gray-900 hover:text-teal-400 dark:text-gray-300 dark:hover:text-teal-400 md:border-0 md:p-0">Timeline</a>
+                    </li>
+                    <li><a href="#projects"
+                            class="block py-2 px-3 text-gray-900 hover:text-teal-400 dark:text-gray-300 dark:hover:text-teal-400 md:border-0 md:p-0">Projects</a>
+                    </li>
+                    <li><a href="#contact"
+                            class="block py-2 px-3 text-gray-900 hover:text-teal-400 dark:text-gray-300 dark:hover:text-teal-400 md:border-0 md:p-0">Contact</a>
+                    </li>
+                    <li><a href="/links"
+                            class="block py-2 px-3 text-gray-900 hover:text-teal-400 dark:text-gray-300 dark:hover:text-teal-400 md:border-0 md:p-0">Links</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-24 relative overflow-hidden">
+        <div class="container mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+            <div class="text-center md:text-left order-2 md:order-1 fade-in-up">
+                <div
+                    class="inline-block px-3 py-1 mb-4 text-sm font-semibold tracking-wider text-teal-600 dark:text-teal-300 uppercase bg-teal-100 dark:bg-teal-900/30 rounded-full border border-teal-200 dark:border-teal-800">
+                    Welcome to my world
+                </div>
+                <h1
+                    class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 dark:text-white md:text-6xl lg:text-7xl">
+                    Hi, I'm <span class="text-gradient" id="hero-name">Mohit Kumar</span>
+                </h1>
+                <h2 class="mb-6 text-2xl font-medium text-gray-500 dark:text-gray-400 h-10">
+                    I am a <span id="typing-text"
+                        class="text-teal-500 dark:text-teal-400 font-bold typing-cursor"></span>
+                </h2>
+                <p id="hero-desc"
+                    class="mb-8 text-lg font-normal text-gray-600 dark:text-gray-400 lg:text-xl max-w-lg mx-auto md:mx-0">
+                    Software Engineer based in Bihar, India. I build accessible, pixel-perfect, and performant web
+                    applications.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#contact"
+                        class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-white rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 shadow-lg shadow-teal-500/30 transition-all transform hover:scale-105">
+                        Hire Me
+                        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M1 5h12m0 0L9 1m4 4L9 9" />
+                        </svg>
+                    </a>
+                    <a id="hero-github" href="#" target="_blank"
+                        class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-gray-700 dark:text-gray-300 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                        <i class="fab fa-github mr-2"></i> GitHub
+                    </a>
+                   <p class="hero-cta-note mt-3 text-xs font-medium text-gray-500 dark:text-gray-400 tracking-widest uppercase text-center md:text-left">
+                       Available for Internship &amp; Data Analyst roles
+                    </p>
+
+                       <div id="social-links" class="mt-8 flex justify-center md:justify-start space-x-4">
+                       <!-- Dynamic Social Links -->
+                       </div>
+                </div>
+                <div id="social-links" class="mt-8 flex justify-center md:justify-start space-x-4">
+                    <!-- Dynamic Social Links -->
+                </div>
+            </div>
+            <div class="order-1 md:order-2 flex justify-center fade-in-up delay-200">
+                <div class="relative w-64 h-64 md:w-80 md:h-80">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-teal-500 to-blue-600 rounded-full blur-xl opacity-50 animate-pulse">
+                    </div>
+                    <img id="hero-avatar"
+                        class="relative rounded-full w-full h-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl"
+                        src="assets/images/prophile_mohit.png" alt="Profile">
+                    <div
+                        class="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl flex items-center gap-3">
+                        <div class="bg-green-500/20 p-2 rounded-lg"><i
+                                class="fas fa-code text-green-600 dark:text-green-400"></i></div>
+                        <div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Experience</p>
+                            <p class="text-sm font-bold text-gray-900 dark:text-white">3+ Years Coding</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white/50 dark:bg-[#111827]/50 transition-colors duration-300 backdrop-blur-sm">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">About <span
+                        class="text-teal-500 dark:text-teal-400">Me</span></h2>
+                <div class="w-20 h-1 bg-teal-500 mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
+                        <span id="about-role" class="about-title-animated">Data Analyst &amp; Python Developer</span>
+                    </h3>
+                    <p id="about-bio" class="text-gray-600 dark:text-gray-400 leading-relaxed">Loading...</p>
+
+                    <div class="grid grid-cols-2 gap-4 mt-6">
+                        <div
+                            class="border border-gray-200 dark:border-gray-700 p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+                            <i class="fas fa-map-marker-alt text-teal-500 dark:text-teal-400 mb-2"></i>
+                            <h4 class="text-gray-900 dark:text-white font-medium">Location</h4>
+                            <p id="about-location" class="text-sm text-gray-500 dark:text-gray-400">...</p>
+                        </div>
+                        <div
+                            class="border border-gray-200 dark:border-gray-700 p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+                            <i class="fas fa-graduation-cap text-teal-500 dark:text-teal-400 mb-2"></i>
+                            <h4 class="text-gray-900 dark:text-white font-medium">Education</h4>
+                            <p id="about-education" class="text-sm text-gray-500 dark:text-gray-400">...</p>
+                        </div>
+                    </div>
+
+                    <!-- View Resume Button -->
+                    <a id="resume-view-btn"
+                        href="assets/resume/Mohit_Kumar_Resume.pdf"
+                        target="_blank"
+                        class="inline-flex items-center mt-4 text-white bg-blue-600 hover:bg-blue-500 dark:bg-blue-500 dark:hover:bg-blue-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition shadow-md">
+                        <i class="fas fa-eye mr-2"></i> View Resume
+                    </a>
+
+                    <!-- Download Resume Button -->
+                    <a id="resume-download-btn"
+                        href="assets/resume/Mohit_Kumar_Resume.pdf"
+                        download
+                        class="inline-flex items-center mt-4 ml-3 text-white bg-green-600 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-400 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 transition shadow-md">
+                        <i class="fas fa-download mr-2"></i> Download Resume
+                    </a>
+                </div>
+
+                <!-- Tech highlight cards (no PNGs, custom icons) -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4 mt-8">
+                        <div
+                            class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center border-b-4 border-teal-500">
+                            <i class="fab fa-python text-4xl text-yellow-400 mb-2"></i>
+                            <p class="text-gray-800 dark:text-white font-semibold">Python</p>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center border-b-4 border-blue-500">
+                            <i class="fas fa-chart-bar text-4xl text-blue-400 mb-2"></i>
+                            <p class="text-gray-800 dark:text-white font-semibold">Power BI</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div
+                            class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center border-b-4 border-green-500">
+                            <i class="fas fa-table text-4xl text-green-400 mb-2"></i>
+                            <p class="text-gray-800 dark:text-white font-semibold">Pandas</p>
+                        </div>
+
+                        <div
+                            class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center border-b-4 border-yellow-500">
+                            <i class="fas fa-database text-4xl text-yellow-400 mb-2"></i>
+                            <p class="text-gray-800 dark:text-white font-semibold">SQL</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 transition-colors duration-300 bg-white/40 dark:bg-slate-900/40">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    My <span class="text-teal-500 dark:text-teal-400">Skills</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Tools &amp; technologies I use for Data Analytics and Web Development.
+                </p>
+            </div>
+            <!-- 3 columns on md & lg -->
+            <div id="skills-container"
+                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                <!-- Skills injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="education"
+        class="py-20 bg-white/50 dark:bg-[#111827]/50 transition-colors duration-300 backdrop-blur-sm">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Education <span
+                        class="text-teal-500 dark:text-teal-400">&amp; Timeline</span></h2>
+                <p class="text-gray-600 dark:text-gray-400">My academic journey.</p>
+            </div>
+            <div id="timeline-container" class="relative max-w-4xl mx-auto">
+                <!-- Timeline injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Featured <span
+                        class="text-teal-500 dark:text-teal-400">Projects</span></h2>
+            <p class="text-gray-600 dark:text-gray-400">Some of my recent work.</p>
+            </div>
+            <div id="projects-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Projects injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (UPDATED & STYLISH 🎨) -->
+    <section id="contact"
+        class="py-20 bg-white/50 dark:bg-[#020617]/70 transition-colors duration-300 backdrop-blur-sm relative overflow-hidden">
+        <div class="contact-glow hidden md:block"></div>
+
+        <div class="container mx-auto px-4 relative">
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- LEFT SIDE -->
+                <div class="space-y-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                        Get in <span class="text-gradient">Touch</span>
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-md">
+                        Have an idea, project or just want to say hi?
+                        Drop a message — I usually reply within <span class="font-semibold text-teal-500">24 hours.</span>
+                    </p>
+
+                    <!-- Badges (internship removed) -->
+                    <div class="flex flex-wrap gap-3 mt-4">
+                        <span
+                            class="px-4 py-2 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/40 backdrop-blur">
+                            📊 Data Analytics Projects
+                        </span>
+                        <span
+                            class="px-4 py-2 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/40 backdrop-blur">
+                            💻 Remote / On-site
+                        </span>
+                    </div>
+
+                    <!-- Fancy Contact Highlight Cards -->
+                    <div class="grid grid-cols-2 gap-4 mt-6">
+                        <div
+                            class="bg-gradient-to-br from-teal-500/20 via-sky-500/15 to-emerald-500/20 border border-teal-400/40 rounded-2xl p-4 shadow-md">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-teal-500/80 flex items-center justify-center text-white">
+                                    <i class="fas fa-handshake"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-wide text-teal-200/90">Collaboration</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">Let's build together</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-gradient-to-br from-indigo-500/20 via-purple-500/15 to-fuchsia-500/20 border border-purple-400/40 rounded-2xl p-4 shadow-md">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-purple-500/80 flex items-center justify-center text-white">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-wide text-purple-200/90">Response Time</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">Replies in 1 day</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Contact Info (Phone / Email / Location) -->
+                    <div class="space-y-6 pt-4 border-t border-white/10" id="contact-info">
+                        <!-- Contact info injected via JS -->
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE - SUPER STYLISH FORM -->
+                <div class="relative">
+                    <div
+                        class="relative rounded-2xl p-[2px] bg-gradient-to-br from-teal-500/80 via-blue-500/60 to-purple-500/80 shadow-2xl">
+                        <div
+                            class="bg-white/95 dark:bg-slate-950/95 rounded-2xl p-8 backdrop-blur-xl border border-white/10">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <p class="text-xs uppercase tracking-[0.2em] text-teal-400/80 mb-1">CONTACT FORM</p>
+                                    <h3
+                                        class="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                        Send me a message
+                                        <span class="inline-flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    </h3>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                        Fill your details below — no login, no signup, just a simple email to me.
+                                    </p>
+                                </div>
+                                <!-- Powered by Web3Forms removed -->
+                            </div>
+
+                            <form id="contact-form" class="space-y-6">
+                                <!-- Web3Forms -->
+                                <input type="hidden" name="access_key" value="26539079-5259-4dbb-a882-22a7cb8877dd">
+                                <input type="hidden" name="from_name" value="Mohit Portfolio">
+                                <input type="hidden" name="subject" value="New Submission from Portfolio">
+
+                                <!-- NAME -->
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
+                                        Name
+                                    </label>
+                                    <div class="relative group">
+                                        <span
+                                            class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-blue-500 flex items-center justify-center shadow-md">
+                                            <i class="fas fa-user text-white text-xs"></i>
+                                        </span>
+                                        <input type="text" name="name"
+                                            class="w-full pl-14 pr-4 py-3 text-sm rounded-2xl border border-white/10 bg-gradient-to-r from-slate-900/80 to-slate-800/80 text-gray-100 placeholder-gray-400/80 focus:outline-none focus:ring-2 focus:ring-teal-400/70 focus:border-transparent shadow-inner"
+                                            placeholder="John Doe" required>
+                                        <div
+                                            class="absolute inset-0 rounded-2xl pointer-events-none border border-white/5 group-hover:border-teal-400/60 transition-all">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- EMAIL -->
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
+                                        Email
+                                    </label>
+                                    <div class="relative group">
+                                        <span
+                                            class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-pink-500 flex items-center justify-center shadow-md">
+                                            <i class="fas fa-envelope text-white text-xs"></i>
+                                        </span>
+                                        <input type="email" name="email"
+                                            class="w-full pl-14 pr-4 py-3 text-sm rounded-2xl border border-white/10 bg-gradient-to-r from-slate-900/80 to-slate-800/80 text-gray-100 placeholder-gray-400/80 focus:outline-none focus:ring-2 focus:ring-amber-400/70 focus:border-transparent shadow-inner"
+                                            placeholder="name@example.com" required>
+                                        <div
+                                            class="absolute inset-0 rounded-2xl pointer-events-none border border-white/5 group-hover:border-amber-400/60 transition-all">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- MESSAGE -->
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
+                                        Message
+                                    </label>
+                                    <div class="relative group">
+                                        <span
+                                            class="absolute left-3 top-3 w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center shadow-md">
+                                            <i class="fas fa-comment-dots text-white text-xs"></i>
+                                        </span>
+                                        <textarea name="message" rows="6"
+                                            class="w-full pl-14 pr-4 pt-3 pb-2 text-sm rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/80 to-slate-800/80 text-gray-100 placeholder-gray-400/80 focus:outline-none focus:ring-2 focus:ring-purple-400/70 focus:border-transparent resize-none shadow-inner min-h-[160px] lg:min-h-[200px]"
+                                            placeholder="Write your message here..." required></textarea>
+                                        <div
+                                            class="absolute inset-0 rounded-2xl pointer-events-none border border-white/5 group-hover:border-purple-400/60 transition-all">
+                                        </div>
+                                    </div>
+                                    <p class="text-[11px] text-gray-500/80 dark:text-gray-500 mt-1 flex items-center gap-1">
+                                        <i class="fas fa-shield-alt text-[10px] text-emerald-400"></i>
+                                        Your message goes directly to my email. No spam, no data sharing.
+                                    </p>
+                                </div>
+
+                                <!-- SUBMIT BUTTON -->
+                                <button type="submit" id="submit-btn"
+                                    class="w-full mt-2 text-sm font-semibold tracking-wide text-white bg-gradient-to-r from-teal-500 via-blue-500 to-purple-500 rounded-2xl py-3.5 flex items-center justify-center gap-2 shadow-lg shadow-teal-500/35 hover:shadow-teal-400/60 hover:from-teal-400 hover:via-blue-500 hover:to-fuchsia-500 focus:outline-none focus:ring-2 focus:ring-teal-300/60 active:scale-[0.98] transition-all">
+                                    <span>Send Message</span>
+                                    <i class="fas fa-paper-plane text-xs"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Notification Toast -->
+    <div id="space-toast">
+        <div id="toast-icon" class="text-2xl"></div>
+        <div>
+            <h4 id="toast-title" class="font-bold text-sm uppercase tracking-wider">Notification</h4>
+            <p id="toast-msg" class="text-gray-300 text-sm mt-1">Message content</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+        class="bg-white dark:bg-gray-900 py-8 border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-2xl font-bold text-gray-900 dark:text-white">Mohit<span
+                        class="text-teal-500 dark:text-teal-400">.</span></span>
+            </div>
+            <div class="text-gray-600 dark:text-gray-400 text-sm text-center md:text-right">
+                <p>&copy; 2025 Mohit Kumar. All rights reserved.</p>
+                <p class="mt-1">Designed with <i class="fas fa-heart text-red-500 mx-1"></i> by Mohit</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FULL JS -->
+    <script>
+        // -----------------------------------------
+        // DEFAULT DATA
+        // -----------------------------------------
+        const defaultData = {
+            personal: {
+                name: "Mohit Kumar",
+                titles: ["Data Analyst", "Python Developer"],
+                desc: "Aspiring Data Analyst from Bihar, India with strong skills in Python, SQL, Excel and data analytics.",
+                github: "https://github.com/mohit796",
+                location: "Bihar, India",
+                education_summary: "BCA (70.5%) & MCA (Pursuing)",
+                social: [
+                    { icon: "fab fa-linkedin", link: "https://www.linkedin.com/in/mohit-kumar-7a5a742a6" },
+                    { icon: "fas fa-envelope", link: "mailto:mohitkr803101@gmail.com" },
+                    { icon: "fab fa-instagram", link: "https://www.instagram.com/mr_mohit_rajput67" }
+                ],
+                contact: {
+                    phone: "+91 8252191450",
+                    email: "mohitkr803101@gmail.com",
+                    address: "Bihar, India - 803101"
+                }
+            },
+
+            about: {
+                role: "Data Analyst & Python Developer",
+                bio: "I’m a Data Analyst from Bihar, India, focused on turning raw data into clear and meaningful insights. I work with Python, SQL, Excel and Power BI for data cleaning, analysis and visualization. I enjoy building dashboards and reports that help businesses make smarter, data-driven decisions."
+            },
+
+            skills: [
+                { name: "Python", icon: "fab fa-python", color: "text-yellow-400" },
+                { name: "Pandas", icon: "fas fa-chart-line", color: "text-green-500" },
+                { name: "NumPy", icon: "fas fa-square-root-alt", color: "text-blue-400" },
+                { name: "Matplotlib", icon: "fas fa-chart-area", color: "text-indigo-400" },
+                { name: "Seaborn", icon: "fas fa-water", color: "text-cyan-400" },
+                { name: "Tableau", icon: "fas fa-chart-pie", color: "text-orange-400" },
+                { name: "Power BI", icon: "fas fa-chart-bar", color: "text-yellow-500" },
+                { name: "SQL", icon: "fas fa-database", color: "text-teal-300" },
+
+                { name: "HTML", icon: "fab fa-html5", color: "text-orange-500" },
+                { name: "CSS", icon: "fab fa-css3-alt", color: "text-blue-500" },
+                { name: "Bootstrap", icon: "fab fa-bootstrap", color: "text-purple-500" },
+                { name: "Java", icon: "fab fa-java", color: "text-red-500" },
+
+                { name: "VS Code", icon: "fas fa-code", color: "text-blue-400" },
+                { name: "PyCharm", icon: "fas fa-terminal", color: "text-green-400" },
+                { name: "MongoDB (NoSQL)", icon: "fas fa-database", color: "text-green-500" },
+                { name: "Excel", icon: "fas fa-file-excel", color: "text-green-600" },
+                { name: "Git & GitHub", icon: "fab fa-github", color: "text-white" }
+            ],
+
+            // ONLY BCA & MCA
+            timeline: [
+                {
+                    year: "2021–2024",
+                    title: "BCA",
+                    subtitle: "Sardar Patel Memorial College, Udantpuri (Patliputra University)",
+                    desc: "Completed BCA with 70.5% and built projects in web and IoT.",
+                    icon: "fas fa-graduation-cap"
+                },
+                {
+                    year: "2024–2026",
+                    title: "MCA",
+                    subtitle: "Maharishi Markandeshwar (Deemed to be University), Mullana",
+                    desc: "Pursuing MCA with focus on Data Analytics, Python and real-world projects.",
+                    icon: "fas fa-university"
+                }
+            ],
+
+            projects: [
+                {
+                    title: "Digital Door Lock System with OTP",
+                    desc: "IoT-based secure door lock using GSM and Arduino with OTP verification.",
+                    tags: ["IoT", "Arduino", "GSM", "Security"],
+                    icon: "fas fa-lock",
+                    source_link: "#",
+                    live_link: "#"
+                },
+                {
+                    title: "College Management Website",
+                    desc: "Web application to manage basic college information and pages.",
+                    tags: ["HTML", "CSS", "JavaScript"],
+                    icon: "fas fa-globe",
+                    source_link: "#",
+                    live_link: "#"
+                }
+            ]
+        };
+
+        // Initial Render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSite(defaultData);
+        });
+
+        // -----------------------------------------
+        // RENDERING LOGIC
+        // -----------------------------------------
+        function renderSite(data) {
+            // Personal & Hero
+            const personal = data.personal || defaultData.personal;
+            setText('hero-name', personal.name);
+            setText('hero-desc', personal.desc);
+            setHref('hero-github', personal.github);
+            setText('about-location', personal.location);
+            setText('about-education', personal.education_summary);
+
+            initTyping(personal.titles || ["Developer"]);
+
+            // Social Links
+            const socialContainer = document.getElementById('social-links');
+            if (socialContainer) {
+                const socials = personal.social || defaultData.personal.social;
+                socialContainer.innerHTML = socials.map(s =>
+                    `<a href="${s.link || '#'}" target="_blank" class="text-gray-500 hover:text-teal-500 transition-colors text-2xl"><i class="${s.icon}"></i></a>`
+                ).join('');
+            }
+
+            // About
+            const about = data.about || defaultData.about;
+            setText('about-role', about.role);
+            setText('about-bio', about.bio);
+
+            // Skills
+            const skillsContainer = document.getElementById('skills-container');
+            if (skillsContainer) {
+                const skills = (data.skills && data.skills.length > 0) ? data.skills : defaultData.skills;
+                skillsContainer.innerHTML = skills.map((s, idx) => `
+                    <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl flex items-center justify-center card-hover group border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl fade-in-up"
+                         style="animation-delay:${idx * 0.08}s">
+                        <div class="relative z-10 flex flex-col items-center justify-center gap-3">
+                            <i class="${s.icon} text-5xl ${s.color} skill-icon group-hover:scale-110 transition-transform"></i>
+                            <span class="text-gray-700 dark:text-gray-300 font-medium">${s.name}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Timeline (only BCA + MCA)
+            const timelineContainer = document.getElementById('timeline-container');
+            if (timelineContainer) {
+                const timeline = data.timeline || defaultData.timeline;
+                timelineContainer.innerHTML =
+                    '<div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gray-300 dark:bg-gray-700 rounded-full hidden md:block"></div>' +
+                    timeline.map((item, index) => {
+                        const isLeft = index % 2 === 0;
+                        return `
+                        <div class="flex flex-col md:flex-row items-center justify-between mb-12 w-full fade-in-up" style="animation-delay:${index * 0.1}s">
+                            <div class="w-full md:w-5/12 ${isLeft ? 'order-2 md:order-1' : 'order-2 md:order-3'}">
+                                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg hover:border-teal-500 hover:-translate-y-1 transition-all">
+                                    <span class="text-teal-600 dark:text-teal-400 font-bold text-sm">${item.year}</span>
+                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-1">${item.title}</h3>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-2">${item.subtitle}</p>
+                                    <p class="text-gray-600 dark:text-gray-500 text-sm">${item.desc}</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-teal-500 rounded-full border-4 border-gray-100 dark:border-gray-900 hidden md:flex items-center justify-center order-1 md:order-2">
+                                <i class="${item.icon || 'fas fa-circle'} text-white text-xs"></i>
+                            </div>
+                            <div class="w-full md:w-5/12 order-2 ${isLeft ? 'md:order-3' : 'md:order-1'}"></div>
+                        </div>`;
+                    }).join('');
+            }
+
+            // Projects
+            const projContainer = document.getElementById('projects-container');
+            if (projContainer) {
+                const projects = data.projects || defaultData.projects;
+                projContainer.innerHTML = projects.map(p => {
+                    const sourceLink = p.source_link || p.link || '#';
+                    const liveLink = p.live_link || '#';
+
+                    return `
+                        <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 group card-hover shadow-md hover:shadow-xl">
+                            <div class="h-48 bg-gray-100 dark:bg-gray-700 relative flex items-center justify-center overflow-hidden">
+                                <i class="${p.icon || 'fas fa-code'} text-6xl text-gray-300 dark:text-gray-600 group-hover:text-teal-500 dark:group-hover:text-teal-400 transition-colors"></i>
+                                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                                    <a href="${sourceLink}" target="_blank" class="p-3 bg-gray-800 rounded-full text-white hover:bg-teal-500 transition-colors" title="Source Code">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="${liveLink}" target="_blank" class="p-3 bg-gray-800 rounded-full text-white hover:bg-blue-500 transition-colors" title="Live Demo">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">${p.title}</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">${p.desc}</p>
+                                <div class="flex flex-wrap gap-2">
+                                    ${(p.tags || []).map(t => `<span class="px-3 py-1 bg-gray-100 dark:bg-gray-900 text-teal-600 dark:text-teal-400 text-xs rounded-full border border-gray-200 dark:border-gray-700">${t}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>`;
+                }).join('');
+            }
+
+            // Contact Info (phone/email clickable)
+            const contactContainer = document.getElementById('contact-info');
+            if (contactContainer) {
+                const c = personal.contact || defaultData.personal.contact;
+                const cleanPhone = c.phone.replace(/\s/g, '');
+                contactContainer.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-md flex items-center justify-center text-teal-500 border border-teal-500/20">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-900 dark:text-white font-medium text-sm">Phone</h4>
+                            <a href="tel:${cleanPhone}" class="text-gray-600 dark:text-gray-400 hover:text-teal-400 dark:hover:text-teal-300 text-sm">
+                                ${c.phone}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-md flex items-center justify-center text-amber-500 border border-amber-500/20">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-900 dark:text-white font-medium text-sm">Email</h4>
+                            <a href="mailto:${c.email}" class="text-gray-600 dark:text-gray-400 hover:text-amber-400 dark:hover:text-amber-300 text-sm">
+                                ${c.email}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-white/90 dark:bg-slate-900/90 shadow-md flex items-center justify-center text-pink-500 border border-pink-500/20">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-900 dark:text-white font-medium text-sm">Location</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">${c.address}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val || ''; }
+        function setHref(id, val) { const el = document.getElementById(id); if (el && val) el.href = val; }
+
+        // -----------------------------------------
+        // THEME / MENU / NAV SCROLL
+        // -----------------------------------------
+        const themeBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+        const mainNav = document.getElementById('main-nav');
+
+        if (localStorage.getItem('color-theme') === 'dark' ||
+            (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            if (lightIcon) lightIcon.classList.remove('hidden');
+            document.documentElement.classList.add('dark');
+        } else {
+            if (darkIcon) darkIcon.classList.remove('hidden');
+            document.documentElement.classList.remove('dark');
+        }
+
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                const isDark = document.documentElement.classList.contains('dark');
+                darkIcon.classList.toggle('hidden', !isDark);
+                lightIcon.classList.toggle('hidden', isDark);
+                localStorage.setItem('color-theme', isDark ? 'dark' : 'light');
+            });
+        }
+
+        const menuBtn = document.getElementById('menu-btn');
+        const navbar = document.getElementById('navbar-default');
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                navbar.classList.toggle('hidden');
+            });
+        }
+        document.querySelectorAll('#navbar-default a').forEach(link => {
+            link.addEventListener('click', () => {
+                navbar.classList.add('hidden');
+            });
+        });
+
+        // Nav shadow on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                mainNav.classList.add('nav-scrolled');
+            } else {
+                mainNav.classList.remove('nav-scrolled');
+            }
+        });
+
+        // -----------------------------------------
+        // TYPING EFFECT
+        // -----------------------------------------
+        let typingInterval;
+        function initTyping(texts) {
+            if (typingInterval) clearInterval(typingInterval);
+            let count = 0;
+            let index = 0;
+            function type() {
+                if (count >= texts.length) count = 0;
+                const currentText = texts[count];
+                const el = document.getElementById("typing-text");
+                if (el) el.textContent = currentText.slice(0, index++);
+                if (index > currentText.length) {
+                    count++;
+                    index = 0;
+                    clearInterval(typingInterval);
+                    setTimeout(() => {
+                        typingInterval = setInterval(type, 100);
+                    }, 1000);
+                }
+            }
+            typingInterval = setInterval(type, 100);
+        }
+
+        // -----------------------------------------
+        // PARTICLES
+        // -----------------------------------------
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        resizeCanvas();
+        window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+
+        let mouse = { x: null, y: null, radius: (canvas.height / 90) * (canvas.width / 90) };
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = undefined; mouse.y = undefined; });
+
+        class Particle {
+            constructor(x, y, dX, dY, size) { this.x = x; this.y = y; this.dX = dX; this.dY = dY; this.size = size; }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                const isDark = document.documentElement.classList.contains('dark');
+                ctx.fillStyle = isDark ? 'rgba(220, 220, 220, 0.55)' : 'rgba(100, 100, 100, 0.55)';
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.dX = -this.dX;
+                if (this.y > canvas.height || this.y < 0) this.dY = -this.dY;
+
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                const repelRadius = 110;
+
+                if (distance < repelRadius) {
+                    const force = (repelRadius - distance) / repelRadius;
+                    const moveX = (dx / distance) * force * 3;
+                    const moveY = (dy / distance) * force * 3;
+                    this.x -= moveX; this.y -= moveY;
+                } else {
+                    this.x += this.dX * 0.6; this.y += this.dY * 0.6;
+                }
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 18000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2.5) + 1.2;
+                let x = Math.random() * (innerWidth - size * 4) + size * 2;
+                let y = Math.random() * (innerHeight - size * 4) + size * 2;
+                let dX = (Math.random() * 1.5) - 0.75;
+                let dY = (Math.random() * 1.5) - 0.75;
+                particlesArray.push(new Particle(x, y, dX, dY, size));
+            }
+        }
+
+        function connect() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let dist = (particlesArray[a].x - particlesArray[b].x) ** 2 + (particlesArray[a].y - particlesArray[b].y) ** 2;
+                    if (dist < 9000) {
+                        let opacity = 1 - dist / 9000;
+                        const isDark = document.documentElement.classList.contains('dark');
+                        ctx.strokeStyle = isDark ? `rgba(220,220,220,${opacity * 0.6})` : `rgba(100,100,100,${opacity * 0.6})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => p.update());
+            connect();
+        }
+
+        initParticles();
+        animateParticles();
+
+        // -----------------------------------------
+        // CONTACT FORM + TOAST (Web3Forms)
+        // -----------------------------------------
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const toast = document.getElementById('space-toast');
+        const toastIcon = document.getElementById('toast-icon');
+        const toastTitle = document.getElementById('toast-title');
+        const toastMsg = document.getElementById('toast-msg');
+
+        function showToast(type, title, message) {
+            toast.className = `show ${type}`;
+            toastTitle.innerText = title;
+            toastMsg.innerText = message;
+
+            if (type === 'success') {
+                toastIcon.innerHTML = '<i class="fas fa-check-circle text-green-400"></i>';
+            } else {
+                toastIcon.innerHTML = '<i class="fas fa-exclamation-triangle text-red-400"></i>';
+            }
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(contactForm);
+                const accessKey = formData.get('access_key');
+
+                if (!accessKey) {
+                    showToast('error', 'Configuration Error', 'Web3Forms access key missing.');
+                    return;
+                }
+
+                const originalBtnContent = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                const object = Object.fromEntries(formData);
+                const json = JSON.stringify(object);
+
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
+                })
+                    .then(async (response) => {
+                        let json = await response.json();
+                        if (response.status == 200) {
+                            showToast('success', 'Message Sent ✅', 'Thanks for reaching out. I will get back to you soon.');
+                            contactForm.reset();
+                        } else {
+                            console.error(response);
+                            showToast('error', 'Submission Failed', json.message || 'Something went wrong.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        showToast('error', 'Network Error', 'Unable to connect to the server.');
+                    })
+                    .finally(() => {
+                        submitBtn.innerHTML = originalBtnContent;
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>

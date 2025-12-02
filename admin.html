@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Admin CMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SortableJS for Drag & Drop -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { 
+            darkMode: 'class', 
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#0d9488', 
+                        dark: '#0f172a',
+                        darker: '#020617'
+                    } 
+                } 
+            } 
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0d9488; }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .editing-highlight {
+            border-color: #0d9488 !important;
+            background: rgba(13, 148, 136, 0.1) !important;
+        }
+
+        /* Icon Picker Grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: #1e293b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .icon-item:hover {
+            background: #0d9488;
+            color: white;
+            transform: scale(1.1);
+        }
+        .icon-item i { font-size: 24px; margin-bottom: 5px; }
+        .icon-item span { font-size: 10px; text-align: center; opacity: 0.7; }
+        
+        /* Drag Handle */
+        .sortable-ghost { opacity: 0.4; background: #0d9488; }
+        .drag-handle { cursor: grab; }
+        .drag-handle:active { cursor: grabbing; }
+    </style>
+</head>
+<body class="bg-darker text-gray-200 font-sans min-h-screen flex flex-col">
+
+    <!-- Login Overlay -->
+    <div id="login-screen" class="fixed inset-0 z-[100] bg-darker flex items-center justify-center">
+        <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-700 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 to-blue-500"></div>
+            <h2 class="text-3xl font-bold text-white mb-2 text-center">Admin Access</h2>
+            <form id="login-form" class="space-y-5">
+                <input type="email" id="login-email" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg p-3 outline-none" placeholder="Email">
+                <input type="password" id="login-pass" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg p-3 outline-none" placeholder="Password">
+                <button type="submit" class="w-full bg-gradient-to-r from-teal-500 to-teal-600 text-white font-bold py-3 rounded-lg">Access Dashboard</button>
+                <p id="login-error" class="text-red-400 text-center text-sm hidden"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Icon Picker Modal -->
+    <div id="icon-modal" class="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-xl border border-gray-700 w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl">
+            <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-800/50 rounded-t-xl">
+                <h3 class="text-lg font-bold text-white">Select an Icon</h3>
+                <button onclick="closeIconModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-4 border-b border-gray-700">
+                <input type="text" id="icon-search" placeholder="Search icons (e.g. python, user, code)..." class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white focus:border-teal-500 outline-none">
+            </div>
+            <div id="icon-grid-container" class="p-4 icon-grid custom-scrollbar">
+                <!-- Icons injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="hidden flex-grow flex flex-col">
+        <nav class="bg-gray-800/80 backdrop-blur-md border-b border-gray-700 p-4 sticky top-0 z-40">
+            <div class="container mx-auto flex justify-between items-center">
+                <span class="text-xl font-bold text-white">CMS <span class="text-teal-400 text-sm font-normal ml-1">v3.2</span></span>
+                <button id="logout-btn" class="text-sm text-gray-400 hover:text-white flex items-center gap-2"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </nav>
+
+        <div class="container mx-auto p-6 pb-32 max-w-6xl">
+            <!-- Tabs -->
+            <div class="flex flex-wrap gap-2 mb-8 bg-gray-800/50 p-1.5 rounded-xl border border-gray-700/50 inline-flex overflow-x-auto">
+                <button class="tab-btn active flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all bg-teal-600 text-white shadow-lg" onclick="switchTab('general')"><i class="fas fa-sliders-h"></i> General</button>
+                <button class="tab-btn flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white hover:bg-gray-700" onclick="switchTab('social')"><i class="fas fa-share-alt"></i> Social</button>
+                <button class="tab-btn flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white hover:bg-gray-700" onclick="switchTab('about')"><i class="fas fa-user"></i> About</button>
+                <button class="tab-btn flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white hover:bg-gray-700" onclick="switchTab('skills')"><i class="fas fa-code"></i> Skills</button>
+                <button class="tab-btn flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white hover:bg-gray-700" onclick="switchTab('projects')"><i class="fas fa-laptop-code"></i> Projects</button>
+                <button class="tab-btn flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white hover:bg-gray-700" onclick="switchTab('timeline')"><i class="fas fa-history"></i> Timeline</button>
+            </div>
+
+            <form id="config-form">
+                <!-- GENERAL TAB -->
+                <div id="tab-general" class="tab-content space-y-6 animate-fade">
+                    <div class="glass-panel p-6 rounded-xl">
+                        <h3 class="text-lg font-bold text-teal-400 mb-6 border-b border-gray-700 pb-2">Hero Configuration</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label><input type="text" name="personal.name" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Profile Image URL</label><input type="text" name="personal.avatar" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Job Titles (Comma Separated)</label><input type="text" id="titles-input" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                            </div>
+                            <div class="space-y-4">
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Description</label><textarea name="personal.desc" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 h-[120px] resize-none"></textarea></div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">GitHub Link</label><input type="text" name="personal.github" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                                    <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Resume View Link</label><input type="text" name="personal.resume" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                                </div>
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Resume Download Link</label><input type="text" name="personal.resume_download" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl">
+                        <h3 class="text-lg font-bold text-teal-400 mb-6 border-b border-gray-700 pb-2">Contact Info</h3>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div><label class="text-xs font-bold text-gray-500 uppercase mb-1">Phone</label><input type="text" name="personal.contact.phone" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                            <div><label class="text-xs font-bold text-gray-500 uppercase mb-1">Email</label><input type="text" name="personal.contact.email" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                            <div><label class="text-xs font-bold text-gray-500 uppercase mb-1">Address</label><input type="text" name="personal.contact.address" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOCIAL TAB (NEW) -->
+                <div id="tab-social" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-pink-500">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-bold text-white">Social Media Links</h4>
+                            <button type="button" id="social-action-btn" onclick="addSocial()" class="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-2"><i class="fas fa-plus"></i> <span>Add Link</span></button>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" id="new-social-link" placeholder="Profile URL (e.g. https://linkedin.com/in/you)" class="bg-gray-900 text-white p-3 rounded-lg border border-gray-700 focus:border-pink-500 outline-none">
+                            <div class="flex gap-2">
+                                <input type="text" id="new-social-icon" placeholder="Icon (fab fa-linkedin)" class="w-full bg-gray-900 text-white p-3 rounded-lg border border-gray-700 focus:border-pink-500 outline-none">
+                                <button type="button" onclick="openIconModal('new-social-icon')" class="bg-gray-700 px-4 rounded-lg hover:bg-gray-600"><i class="fas fa-icons"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- List Area -->
+                    <div id="social-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sortable-list"></div>
+                </div>
+
+                <!-- ABOUT TAB -->
+                <div id="tab-about" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-xl">
+                        <div class="space-y-4">
+                            <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Role Title</label><input type="text" name="about.role" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                            <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Biography</label><textarea name="about.bio" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 h-40"></textarea></div>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Location</label><input type="text" name="personal.location" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Education Summary</label><input type="text" name="personal.education_summary" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SKILLS TAB -->
+                <div id="tab-skills" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-teal-500">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-bold text-white">Manage Skills</h4>
+                            <button type="button" id="skill-action-btn" onclick="addSkill()" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-2"><i class="fas fa-plus"></i> <span>Add Skill</span></button>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" id="new-skill-name" placeholder="Skill Name (e.g. Python)" class="bg-gray-900 text-white p-3 rounded-lg border border-gray-700 focus:border-teal-500 outline-none">
+                            <div class="flex gap-2">
+                                <input type="text" id="new-skill-icon" placeholder="Icon Class" class="w-full bg-gray-900 text-white p-3 rounded-lg border border-gray-700 focus:border-teal-500 outline-none">
+                                <button type="button" onclick="openIconModal('new-skill-icon')" class="bg-gray-700 px-4 rounded-lg hover:bg-gray-600"><i class="fas fa-icons"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="skills-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sortable-list"></div>
+                </div>
+
+                <!-- PROJECTS TAB -->
+                <div id="tab-projects" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-blue-500">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-bold text-white">Manage Projects</h4>
+                            <button type="button" id="proj-action-btn" onclick="addProject()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-2"><i class="fas fa-plus"></i> <span>Add Project</span></button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="grid md:grid-cols-2 gap-3">
+                                <input type="text" id="new-proj-title" placeholder="Project Title" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-blue-500 outline-none">
+                                <input type="text" id="new-proj-desc" placeholder="Short Description" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-blue-500 outline-none">
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-3">
+                                <input type="text" id="new-proj-source" placeholder="Source URL" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-blue-500 outline-none">
+                                <input type="text" id="new-proj-live" placeholder="Live URL" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-blue-500 outline-none">
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-3">
+                                <div class="flex gap-2">
+                                    <input type="text" id="new-proj-icon" placeholder="Icon" class="w-full bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-blue-500 outline-none">
+                                    <button type="button" onclick="openIconModal('new-proj-icon')" class="bg-gray-700 px-4 rounded-lg hover:bg-gray-600"><i class="fas fa-icons"></i></button>
+                                </div>
+                                <input type="text" id="new-proj-tags" placeholder="Tags (Comma separated)" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-blue-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 sortable-list"></div>
+                </div>
+
+                <!-- TIMELINE TAB -->
+                <div id="tab-timeline" class="tab-content hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-bold text-white">Manage Timeline</h4>
+                            <button type="button" id="time-action-btn" onclick="addTimeline()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-2"><i class="fas fa-plus"></i> <span>Add Entry</span></button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="grid md:grid-cols-2 gap-3">
+                                <input type="text" id="new-time-year" placeholder="Year" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-purple-500 outline-none">
+                                <input type="text" id="new-time-title" placeholder="Title" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-purple-500 outline-none">
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-3">
+                                <input type="text" id="new-time-sub" placeholder="Subtitle" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-purple-500 outline-none">
+                                <input type="text" id="new-time-desc" placeholder="Description" class="bg-gray-900 p-3 rounded-lg border border-gray-700 focus:border-purple-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="timeline-list" class="space-y-3 sortable-list"></div>
+                </div>
+
+                <!-- Floating Save Button -->
+                <div class="fixed bottom-0 left-0 w-full bg-gray-900/90 backdrop-blur-lg border-t border-gray-800 p-4 flex justify-between items-center z-50 px-8">
+                    <div class="flex items-center gap-2">
+                        <div id="status-indicator" class="w-3 h-3 rounded-full bg-gray-600"></div>
+                        <span id="status-msg" class="text-gray-400 text-sm">Ready</span>
+                    </div>
+                    <button type="button" onclick="saveData()" class="bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-bold shadow-lg flex items-center gap-2 transform hover:translate-y-[-2px] transition-all">
+                        <i class="fas fa-cloud-upload-alt"></i> Publish Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+// -------------------------
+// SAME DATA STRUCTURE AS index.html
+// -------------------------
+const defaultData = {
+    personal: {
+        name: "Mohit Kumar",
+        titles: ["Data Analyst", "Python Developer"],
+        desc: "Aspiring Data Analyst from Bihar, India with strong skills in Python, SQL, Excel and data analytics.",
+        github: "https://github.com/mohit796",
+        location: "Bihar, India",
+        education_summary: "MCA (Pursuing)",
+        resume: "#",
+        resume_download: "#",
+        social: [
+            { icon: "fab fa-linkedin", link: "https://www.linkedin.com/in/mohit-kumar-7a5a742a6" },
+            { icon: "fas fa-envelope", link: "mailto:mohitkr803101@gmail.com" },
+            { icon: "fab fa-instagram", link: "https://www.instagram.com/mr_mohit_rajput67" }
+        ],
+        contact: {
+            phone: "+91 825-219-1450",
+            email: "mohitkr803101@gmail.com",
+            address: "Bihar, India - 803101"
+        }
+    },
+    about: {
+        role: "Data Analyst & Python Developer",
+        bio: "I’m a Data Analyst from Bihar, India, focused on turning raw data into clear and meaningful insights. I work with Python, SQL, Excel and Power BI for data cleaning, analysis and visualization. I enjoy building dashboards and reports that help businesses make smarter, data-driven decisions."
+    },
+    skills: [
+        { name: "Python",   icon: "fab fa-python",     color: "text-yellow-500" },
+        { name: "Pandas",   icon: "fas fa-leaf",       color: "text-green-600" },
+        { name: "Power BI", icon: "fas fa-chart-bar",  color: "text-green-500" },
+        { name: "SQL",      icon: "fas fa-database",   color: "text-yellow-400" }
+    ],
+    timeline: [
+        {
+            year: "2021–2024",
+            title: "BCA",
+            subtitle: "Sardar Patel Memorial College, Udantpuri (Patliputra University)",
+            desc: "Completed BCA with 70.5% and built projects in web and IoT.",
+            icon: "fas fa-graduation-cap"
+        },
+        {
+            year: "2024–2026",
+            title: "MCA",
+            subtitle: "Maharishi Markandeshwar (Deemed to be University)",
+            desc: "Pursuing MCA with interest in Data Analytics and Python.",
+            icon: "fas fa-university"
+        },
+        {
+            year: "2023–Present",
+            title: "Data & Programming Journey",
+            subtitle: "Python | SQL | Power BI",
+            desc: "Working on data analysis, dashboards and portfolio projects.",
+            icon: "fas fa-laptop-code"
+        }
+    ],
+    projects: [
+        {
+            title: "Digital Door Lock System with OTP",
+            desc: "IoT based secure door lock using GSM and Arduino with OTP verification.",
+            tags: ["IoT", "Arduino", "GSM", "Security"],
+            icon: "fas fa-lock",
+            source_link: "#",
+            live_link: "#"
+        },
+        {
+            title: "College Management Website",
+            desc: "Web application to manage basic college information and pages.",
+            tags: ["HTML", "CSS", "JavaScript"],
+            icon: "fas fa-globe",
+            source_link: "#",
+            live_link: "#"
+        }
+    ]
+};
+
+// current editable state
+let currentData = JSON.parse(JSON.stringify(defaultData));
+let editIndex = { skills: -1, projects: -1, timeline: -1, social: -1 };
+let activeInputId = null;
+
+// -------------------------
+// INIT (no Firebase, no login)
+// -------------------------
+window.addEventListener('DOMContentLoaded', () => {
+    // hide login, show dashboard
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+
+    populateForm(currentData);
+    initSortable();
+});
+
+// -------------------------
+// SORTABLE (drag & drop)
+// -------------------------
+function initSortable() {
+    ['skills-list', 'projects-list', 'timeline-list', 'social-list'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        new Sortable(el, {
+            animation: 150,
+            handle: '.drag-handle',
+            ghostClass: 'sortable-ghost',
+            onEnd: function (evt) {
+                const type = id.split('-')[0];
+                if (type === 'social') {
+                    const item = currentData.personal.social.splice(evt.oldIndex, 1)[0];
+                    currentData.personal.social.splice(evt.newIndex, 0, item);
+                    renderSocialList();
+                } else {
+                    const item = currentData[type].splice(evt.oldIndex, 1)[0];
+                    currentData[type].splice(evt.newIndex, 0, item);
+                    if (type === 'skills') renderSkillsList();
+                    if (type === 'projects') renderProjectsList();
+                    if (type === 'timeline') renderTimelineList();
+                }
+            }
+        });
+    });
+}
+
+// -------------------------
+// ICON PICKER
+// -------------------------
+const commonIcons = [
+    "fab fa-python","fab fa-js","fab fa-react","fab fa-node","fab fa-html5","fab fa-css3-alt",
+    "fab fa-git-alt","fas fa-database","fas fa-chart-line","fas fa-chart-bar",
+    "fas fa-user","fas fa-envelope","fas fa-phone","fas fa-map-marker-alt",
+    "fab fa-linkedin","fab fa-github","fab fa-instagram","fab fa-twitter"
+];
+
+window.openIconModal = (inputId) => {
+    activeInputId = inputId;
+    document.getElementById('icon-modal').classList.remove('hidden');
+    renderIconGrid(commonIcons);
+};
+window.closeIconModal = () => {
+    document.getElementById('icon-modal').classList.add('hidden');
+};
+
+function renderIconGrid(icons) {
+    const grid = document.getElementById('icon-grid-container');
+    grid.innerHTML = icons.map(icon => `
+        <div class="icon-item" onclick="selectIcon('${icon}')">
+            <i class="${icon}"></i>
+            <span>${icon.replace('fab fa-','').replace('fas fa-','')}</span>
+        </div>
+    `).join('');
+}
+
+window.selectIcon = (icon) => {
+    if (activeInputId) {
+        const input = document.getElementById(activeInputId);
+        if (input) input.value = icon;
+    }
+    closeIconModal();
+};
+
+document.getElementById('icon-search').addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    const filtered = commonIcons.filter(i => i.toLowerCase().includes(term));
+    renderIconGrid(filtered);
+});
+
+// -------------------------
+// FORM POPULATE
+// -------------------------
+function setVal(name, val) {
+    const el = document.querySelector(`[name="${name}"]`);
+    if (el) el.value = val || '';
+}
+function getVal(name) {
+    const el = document.querySelector(`[name="${name}"]`);
+    return el ? el.value : '';
+}
+
+function populateForm(data) {
+    setVal('personal.name', data.personal?.name);
+    setVal('personal.avatar', data.personal?.avatar || '');
+    setVal('personal.desc', data.personal?.desc);
+    setVal('personal.github', data.personal?.github);
+    setVal('personal.resume', data.personal?.resume);
+    setVal('personal.resume_download', data.personal?.resume_download);
+
+    setVal('personal.contact.phone', data.personal?.contact?.phone);
+    setVal('personal.contact.email', data.personal?.contact?.email);
+    setVal('personal.contact.address', data.personal?.contact?.address);
+
+    setVal('about.role', data.about?.role);
+    setVal('about.bio', data.about?.bio);
+
+    setVal('personal.location', data.personal?.location);
+    setVal('personal.education_summary', data.personal?.education_summary);
+
+    document.getElementById('titles-input').value =
+        (data.personal?.titles || []).join(', ');
+
+    // lists
+    renderSkillsList();
+    renderProjectsList();
+    renderTimelineList();
+    renderSocialList();
+}
+
+// -------------------------
+// SOCIAL
+// -------------------------
+window.renderSocialList = () => {
+    const container = document.getElementById('social-list');
+    const list = currentData.personal.social || [];
+    container.innerHTML = list.map((s, i) => `
+        <div class="bg-gray-800 p-3 rounded-lg border border-gray-700 flex justify-between items-center group ${editIndex.social === i ? 'editing-highlight' : ''}">
+            <div class="flex items-center gap-3 overflow-hidden">
+                <div class="drag-handle text-gray-500 hover:text-white cursor-grab p-1">
+                    <i class="fas fa-grip-vertical"></i>
+                </div>
+                <i class="${s.icon} text-pink-400 text-xl"></i>
+                <span class="text-white text-xs truncate max-w-[150px]">${s.link}</span>
+            </div>
+            <div class="flex gap-1">
+                <button onclick="editSocial(${i})" class="p-1.5 text-blue-400 hover:bg-blue-900/30 rounded"><i class="fas fa-pen"></i></button>
+                <button onclick="removeSocial(${i})" class="p-1.5 text-red-400 hover:bg-red-900/30 rounded"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+};
+
+window.addSocial = () => {
+    const link = document.getElementById('new-social-link').value.trim();
+    const icon = document.getElementById('new-social-icon').value.trim();
+    if (!link || !icon) return;
+
+    const item = { link, icon };
+    if (editIndex.social > -1) {
+        currentData.personal.social[editIndex.social] = item;
+        editIndex.social = -1;
+        const btn = document.getElementById('social-action-btn');
+        btn.innerHTML = '<i class="fas fa-plus"></i> <span>Add Link</span>';
+        btn.classList.replace('bg-yellow-600', 'bg-pink-600');
+    } else {
+        currentData.personal.social.push(item);
+    }
+
+    document.getElementById('new-social-link').value = '';
+    document.getElementById('new-social-icon').value = '';
+    renderSocialList();
+};
+
+window.editSocial = (i) => {
+    const item = currentData.personal.social[i];
+    document.getElementById('new-social-link').value = item.link;
+    document.getElementById('new-social-icon').value = item.icon;
+    editIndex.social = i;
+    renderSocialList();
+
+    const btn = document.getElementById('social-action-btn');
+    btn.innerHTML = '<i class="fas fa-save"></i> <span>Update Link</span>';
+    btn.classList.replace('bg-pink-600', 'bg-yellow-600');
+};
+
+window.removeSocial = (i) => {
+    if (confirm('Delete this link?')) {
+        currentData.personal.social.splice(i, 1);
+        renderSocialList();
+    }
+};
+
+// -------------------------
+// SKILLS
+// -------------------------
+window.renderSkillsList = () => {
+    const container = document.getElementById('skills-list');
+    container.innerHTML = currentData.skills.map((s, i) => `
+        <div class="bg-gray-800 p-3 rounded-lg border border-gray-700 flex justify-between items-center group ${editIndex.skills === i ? 'editing-highlight' : ''}">
+            <div class="flex items-center gap-3">
+                <div class="drag-handle text-gray-500 hover:text-white cursor-grab p-1"><i class="fas fa-grip-vertical"></i></div>
+                <i class="${s.icon} text-teal-400 text-xl"></i>
+                <span class="text-white font-medium">${s.name}</span>
+            </div>
+            <div class="flex gap-1">
+                <button onclick="editSkill(${i})" class="p-1.5 text-blue-400 hover:bg-blue-900/30 rounded"><i class="fas fa-pen"></i></button>
+                <button onclick="removeSkill(${i})" class="p-1.5 text-red-400 hover:bg-red-900/30 rounded"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+};
+
+window.addSkill = () => {
+    const name = document.getElementById('new-skill-name').value.trim();
+    const icon = document.getElementById('new-skill-icon').value.trim();
+    if (!name || !icon) return;
+
+    const item = { name, icon, color: 'text-teal-400' };
+
+    if (editIndex.skills > -1) {
+        currentData.skills[editIndex.skills] = item;
+        editIndex.skills = -1;
+        const btn = document.getElementById('skill-action-btn');
+        btn.innerHTML = '<i class="fas fa-plus"></i> <span>Add Skill</span>';
+        btn.classList.replace('bg-yellow-600', 'bg-teal-600');
+    } else {
+        currentData.skills.push(item);
+    }
+
+    document.getElementById('new-skill-name').value = '';
+    document.getElementById('new-skill-icon').value = '';
+    renderSkillsList();
+};
+
+window.editSkill = (i) => {
+    const s = currentData.skills[i];
+    document.getElementById('new-skill-name').value = s.name;
+    document.getElementById('new-skill-icon').value = s.icon;
+    editIndex.skills = i;
+    renderSkillsList();
+
+    const btn = document.getElementById('skill-action-btn');
+    btn.innerHTML = '<i class="fas fa-save"></i> <span>Update</span>';
+    btn.classList.replace('bg-teal-600', 'bg-yellow-600');
+};
+
+window.removeSkill = (i) => {
+    if (confirm('Delete this skill?')) {
+        currentData.skills.splice(i, 1);
+        renderSkillsList();
+    }
+};
+
+// -------------------------
+// PROJECTS
+// -------------------------
+window.renderProjectsList = () => {
+    const container = document.getElementById('projects-list');
+    container.innerHTML = currentData.projects.map((p, i) => `
+        <div class="bg-gray-800 rounded-lg border border-gray-700 p-4 group flex justify-between items-start ${editIndex.projects === i ? 'editing-highlight' : ''}">
+            <div class="flex gap-3">
+                <div class="drag-handle text-gray-500 hover:text-white cursor-grab pt-1">
+                    <i class="fas fa-grip-vertical"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="${p.icon} text-blue-400"></i>
+                        <span class="font-bold text-white">${p.title}</span>
+                    </div>
+                    <p class="text-xs text-gray-400 line-clamp-1">${p.desc}</p>
+                </div>
+            </div>
+            <div class="flex gap-1">
+                <button onclick="editProject(${i})" class="p-1.5 text-blue-400 hover:bg-blue-900/30 rounded"><i class="fas fa-pen"></i></button>
+                <button onclick="removeProject(${i})" class="p-1.5 text-red-400 hover:bg-red-900/30 rounded"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+};
+
+window.addProject = () => {
+    const title = document.getElementById('new-proj-title').value.trim();
+    if (!title) return;
+
+    const item = {
+        title,
+        desc: document.getElementById('new-proj-desc').value,
+        source_link: document.getElementById('new-proj-source').value,
+        live_link: document.getElementById('new-proj-live').value,
+        icon: document.getElementById('new-proj-icon').value || 'fas fa-code',
+        tags: document.getElementById('new-proj-tags').value
+            .split(',')
+            .map(t => t.trim())
+            .filter(Boolean)
+    };
+
+    if (editIndex.projects > -1) {
+        currentData.projects[editIndex.projects] = item;
+        editIndex.projects = -1;
+        const btn = document.getElementById('proj-action-btn');
+        btn.innerHTML = '<i class="fas fa-plus"></i> <span>Add Project</span>';
+        btn.classList.replace('bg-yellow-600', 'bg-blue-600');
+    } else {
+        currentData.projects.push(item);
+    }
+
+    document.getElementById('new-proj-title').value = '';
+    document.getElementById('new-proj-desc').value = '';
+    document.getElementById('new-proj-source').value = '';
+    document.getElementById('new-proj-live').value = '';
+    document.getElementById('new-proj-icon').value = '';
+    document.getElementById('new-proj-tags').value = '';
+    renderProjectsList();
+};
+
+window.editProject = (i) => {
+    const p = currentData.projects[i];
+    editIndex.projects = i;
+    document.getElementById('new-proj-title').value = p.title;
+    document.getElementById('new-proj-desc').value = p.desc;
+    document.getElementById('new-proj-source').value = p.source_link || '';
+    document.getElementById('new-proj-live').value = p.live_link || '';
+    document.getElementById('new-proj-icon').value = p.icon || '';
+    document.getElementById('new-proj-tags').value = (p.tags || []).join(', ');
+    renderProjectsList();
+
+    const btn = document.getElementById('proj-action-btn');
+    btn.innerHTML = '<i class="fas fa-save"></i> <span>Update</span>';
+    btn.classList.replace('bg-blue-600', 'bg-yellow-600');
+};
+
+window.removeProject = (i) => {
+    if (confirm('Delete this project?')) {
+        currentData.projects.splice(i, 1);
+        renderProjectsList();
+    }
+};
+
+// -------------------------
+// TIMELINE
+// -------------------------
+window.renderTimelineList = () => {
+    const container = document.getElementById('timeline-list');
+    container.innerHTML = currentData.timeline.map((t, i) => `
+        <div class="bg-gray-800 rounded-lg border border-gray-700 p-3 flex justify-between items-center group ${editIndex.timeline === i ? 'editing-highlight' : ''}">
+            <div class="flex items-center gap-3">
+                <div class="drag-handle text-gray-500 hover:text-white cursor-grab">
+                    <i class="fas fa-grip-vertical"></i>
+                </div>
+                <div>
+                    <span class="text-purple-400 text-xs font-bold">${t.year}</span>
+                    <div class="text-white font-bold text-sm">${t.title}</div>
+                </div>
+            </div>
+            <div class="flex gap-1">
+                <button onclick="editTimeline(${i})" class="p-1.5 text-blue-400 hover:bg-blue-900/30 rounded"><i class="fas fa-pen"></i></button>
+                <button onclick="removeTimeline(${i})" class="p-1.5 text-red-400 hover:bg-red-900/30 rounded"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+};
+
+window.addTimeline = () => {
+    const year = document.getElementById('new-time-year').value.trim();
+    if (!year) return;
+
+    const item = {
+        year,
+        title: document.getElementById('new-time-title').value,
+        subtitle: document.getElementById('new-time-sub').value,
+        desc: document.getElementById('new-time-desc').value,
+        icon: 'fas fa-circle'
+    };
+
+    if (editIndex.timeline > -1) {
+        currentData.timeline[editIndex.timeline] = item;
+        editIndex.timeline = -1;
+        const btn = document.getElementById('time-action-btn');
+        btn.innerHTML = '<i class="fas fa-plus"></i> <span>Add Entry</span>';
+        btn.classList.replace('bg-yellow-600', 'bg-purple-600');
+    } else {
+        currentData.timeline.push(item);
+    }
+
+    document.getElementById('new-time-year').value = '';
+    document.getElementById('new-time-title').value = '';
+    document.getElementById('new-time-sub').value = '';
+    document.getElementById('new-time-desc').value = '';
+    renderTimelineList();
+};
+
+window.editTimeline = (i) => {
+    const t = currentData.timeline[i];
+    editIndex.timeline = i;
+    document.getElementById('new-time-year').value = t.year;
+    document.getElementById('new-time-title').value = t.title;
+    document.getElementById('new-time-sub').value = t.subtitle;
+    document.getElementById('new-time-desc').value = t.desc;
+    renderTimelineList();
+
+    const btn = document.getElementById('time-action-btn');
+    btn.innerHTML = '<i class="fas fa-save"></i> <span>Update</span>';
+    btn.classList.replace('bg-purple-600', 'bg-yellow-600');
+};
+
+window.removeTimeline = (i) => {
+    if (confirm('Delete this entry?')) {
+        currentData.timeline.splice(i, 1);
+        renderTimelineList();
+    }
+};
+
+// -------------------------
+// TAB SWITCH
+// -------------------------
+window.switchTab = (t) => {
+    document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hidden'));
+    document.getElementById('tab-' + t).classList.remove('hidden');
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-teal-600','text-white','shadow-lg');
+        btn.classList.add('text-gray-400');
+    });
+
+    // last clicked button
+    const evt = window.event;
+    if (evt && evt.currentTarget) {
+        const btn = evt.currentTarget;
+        btn.classList.add('bg-teal-600','text-white','shadow-lg');
+        btn.classList.remove('text-gray-400');
+    }
+};
+
+// -------------------------
+// SAVE -> DOWNLOAD JSON
+// -------------------------
+window.saveData = () => {
+    const btn = document.querySelector('button[onclick="saveData()"]');
+    const statusMsg = document.getElementById('status-msg');
+
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing...';
+
+    // sync simple fields
+    currentData.personal.name = getVal('personal.name');
+    currentData.personal.avatar = getVal('personal.avatar');
+    currentData.personal.desc = getVal('personal.desc');
+    currentData.personal.github = getVal('personal.github');
+    currentData.personal.resume = getVal('personal.resume');
+    currentData.personal.resume_download = getVal('personal.resume_download');
+
+    currentData.personal.contact = {
+        phone: getVal('personal.contact.phone'),
+        email: getVal('personal.contact.email'),
+        address: getVal('personal.contact.address')
+    };
+
+    currentData.about = {
+        role: getVal('about.role'),
+        bio: getVal('about.bio')
+    };
+
+    currentData.personal.location = getVal('personal.location');
+    currentData.personal.education_summary = getVal('personal.education_summary');
+    currentData.personal.titles = document.getElementById('titles-input').value
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
+
+    // download JSON file
+    const json = JSON.stringify(currentData, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'portfolio-data.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    statusMsg.innerText = "JSON downloaded (portfolio-data.json). Paste into index.html → defaultData.";
+    statusMsg.className = "text-green-400 text-sm";
+
+    setTimeout(() => {
+        statusMsg.innerText = "Ready";
+        statusMsg.className = "text-gray-400 text-sm";
+    }, 4000);
+
+    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Publish Changes';
+};
+</script>
+
+</body>
+</html>
