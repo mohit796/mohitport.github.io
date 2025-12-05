@@ -63,8 +63,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
     <link id="favicon" rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-png" />
@@ -149,6 +148,7 @@
         }
 
         @keyframes blink {
+
             0%,
             100% {
                 opacity: 1;
@@ -247,53 +247,51 @@
             filter: blur(30px);
             z-index: -1;
         }
+
         /* ---- HERO CTA BUTTON GLOW + SHINE ---- */
-.hero-btn-glow {
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
-}
+        .hero-btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+        }
 
-.hero-btn-glow::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg,
-        transparent,
-        rgba(255, 255, 255, 0.55),
-        transparent);
-    transform: translateX(-120%);
-    pointer-events: none;
-}
+        .hero-btn-glow::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.55),
+                    transparent);
+            transform: translateX(-120%);
+            pointer-events: none;
+        }
 
-.hero-btn-glow:hover::before {
-    transform: translateX(120%);
-    transition: transform 0.7s ease;
-}
+        .hero-btn-glow:hover::before {
+            transform: translateX(120%);
+            transition: transform 0.7s ease;
+        }
 
-.hero-btn-glow:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 18px 40px -15px rgba(56, 189, 248, 0.7);
-    filter: brightness(1.05);
-}
+        .hero-btn-glow:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 18px 40px -15px rgba(56, 189, 248, 0.7);
+            filter: brightness(1.05);
+        }
 
-/* Secondary GitHub button thoda smooth hover */
-.hero-btn-outline {
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-}
+        /* Secondary GitHub button thoda smooth hover */
+        .hero-btn-outline {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
 
-.hero-btn-outline:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.8);
-}
+        .hero-btn-outline:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.8);
+        }
 
-/* Text under buttons */
-.hero-cta-note {
-    letter-spacing: 0.12em;
-}
-
-/* ---- ABOUT ROLE ANIMATED TITLE ---- */
-
+        /* Text under buttons */
+        .hero-cta-note {
+            letter-spacing: 0.12em;
+        }
 
         /* ---- ABOUT ROLE ANIMATED TITLE ---- */
         .about-title-animated {
@@ -421,13 +419,14 @@
                         class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-gray-700 dark:text-gray-300 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
                         <i class="fab fa-github mr-2"></i> GitHub
                     </a>
-                   <p class="hero-cta-note mt-3 text-xs font-medium text-gray-500 dark:text-gray-400 tracking-widest uppercase text-center md:text-left">
-                       Available for Internship &amp; Data Analyst roles
+                    <p
+                        class="hero-cta-note mt-3 text-xs font-medium text-gray-500 dark:text-gray-400 tracking-widest uppercase text-center md:text-left">
+                        Available for Internship &amp; Data Analyst roles
                     </p>
 
-                       <div id="social-links" class="mt-8 flex justify-center md:justify-start space-x-4">
-                       <!-- Dynamic Social Links -->
-                       </div>
+                    <div id="social-links" class="mt-8 flex justify-center md:justify-start space-x-4">
+                        <!-- Dynamic Social Links -->
+                    </div>
                 </div>
                 <div id="social-links" class="mt-8 flex justify-center md:justify-start space-x-4">
                     <!-- Dynamic Social Links -->
@@ -446,8 +445,10 @@
                         <div class="bg-green-500/20 p-2 rounded-lg"><i
                                 class="fas fa-code text-green-600 dark:text-green-400"></i></div>
                         <div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Experience</p>
-                            <p class="text-sm font-bold text-gray-900 dark:text-white">3+ Years Coding</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Profile</p>
+                            <p class="text-sm font-bold text-gray-900 dark:text-white">MCA Student | Aspiring Data
+                                Analyst</p>
+
                         </div>
                     </div>
                 </div>
@@ -486,17 +487,13 @@
                     </div>
 
                     <!-- View Resume Button -->
-                    <a id="resume-view-btn"
-                        href="assets/resume/Mohit_Kumar_Resume.pdf"
-                        target="_blank"
+                    <a id="resume-view-btn" href="assets/resume/Mohit_Kumar_Resume.pdf" target="_blank"
                         class="inline-flex items-center mt-4 text-white bg-blue-600 hover:bg-blue-500 dark:bg-blue-500 dark:hover:bg-blue-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition shadow-md">
                         <i class="fas fa-eye mr-2"></i> View Resume
                     </a>
 
                     <!-- Download Resume Button -->
-                    <a id="resume-download-btn"
-                        href="assets/resume/Mohit_Kumar_Resume.pdf"
-                        download
+                    <a id="resume-download-btn" href="assets/resume/Mohit_Kumar_Resume.pdf" download
                         class="inline-flex items-center mt-4 ml-3 text-white bg-green-600 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-400 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 transition shadow-md">
                         <i class="fas fa-download mr-2"></i> Download Resume
                     </a>
@@ -546,8 +543,7 @@
                 </p>
             </div>
             <!-- 3 columns on md & lg -->
-            <div id="skills-container"
-                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            <div id="skills-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
                 <!-- Skills injected via JS -->
             </div>
         </div>
@@ -596,7 +592,8 @@
                     </h2>
                     <p class="text-gray-600 dark:text-gray-300 max-w-md">
                         Have an idea, project or just want to say hi?
-                        Drop a message — I usually reply within <span class="font-semibold text-teal-500">24 hours.</span>
+                        Drop a message — I usually reply within <span class="font-semibold text-teal-500">24
+                            hours.</span>
                     </p>
 
                     <!-- Badges (internship removed) -->
@@ -622,7 +619,8 @@
                                 </div>
                                 <div>
                                     <p class="text-xs uppercase tracking-wide text-teal-200/90">Collaboration</p>
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">Let's build together</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">Let's build together
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -660,7 +658,8 @@
                                     <h3
                                         class="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                                         Send me a message
-                                        <span class="inline-flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                        <span
+                                            class="inline-flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
                                     </h3>
                                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                         Fill your details below — no login, no signup, just a simple email to me.
@@ -677,7 +676,8 @@
 
                                 <!-- NAME -->
                                 <div class="space-y-2">
-                                    <label class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
+                                    <label
+                                        class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
                                         Name
                                     </label>
                                     <div class="relative group">
@@ -696,7 +696,8 @@
 
                                 <!-- EMAIL -->
                                 <div class="space-y-2">
-                                    <label class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
+                                    <label
+                                        class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
                                         Email
                                     </label>
                                     <div class="relative group">
@@ -715,7 +716,8 @@
 
                                 <!-- MESSAGE -->
                                 <div class="space-y-2">
-                                    <label class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
+                                    <label
+                                        class="block text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400">
                                         Message
                                     </label>
                                     <div class="relative group">
@@ -730,7 +732,8 @@
                                             class="absolute inset-0 rounded-2xl pointer-events-none border border-white/5 group-hover:border-purple-400/60 transition-all">
                                         </div>
                                     </div>
-                                    <p class="text-[11px] text-gray-500/80 dark:text-gray-500 mt-1 flex items-center gap-1">
+                                    <p
+                                        class="text-[11px] text-gray-500/80 dark:text-gray-500 mt-1 flex items-center gap-1">
                                         <i class="fas fa-shield-alt text-[10px] text-emerald-400"></i>
                                         Your message goes directly to my email. No spam, no data sharing.
                                     </p>
@@ -851,16 +854,18 @@
                     desc: "IoT-based secure door lock using GSM and Arduino with OTP verification.",
                     tags: ["IoT", "Arduino", "GSM", "Security"],
                     icon: "fas fa-lock",
-                    source_link: "#",
-                    live_link: "#"
+                    source_link: "https://github.com/mohit796/Digital_door_lock",
+                    live_link: "https://drive.google.com/file/d/1Ven8Z_T20mclhaScVRdrVbIkqWChL-_E/preview",
+                    image: "assets/doorlock.jpg"
                 },
                 {
-                    title: "College Management Website",
-                    desc: "Web application to manage basic college information and pages.",
-                    tags: ["HTML", "CSS", "JavaScript"],
+                    title: "Customer_Sales_Analysis",
+                    desc: "Customer Sales Analysis using SQL & Python to analyze sales trends, top products, customer behavior, and generate insights with visualizations.",
+                    tags: ["Python", "Sql", "Pandas"],
                     icon: "fas fa-globe",
-                    source_link: "#",
-                    live_link: "#"
+                    source_link: "https://github.com/mohit796/Customer_Sales_Analysis_SQL_Python",
+                    live_link: "#",
+                    image: "assets/customer_sales.jpg"
                 }
             ]
         };
@@ -946,18 +951,28 @@
                 projContainer.innerHTML = projects.map(p => {
                     const sourceLink = p.source_link || p.link || '#';
                     const liveLink = p.live_link || '#';
+                    const hasLive = liveLink && liveLink !== "#";
 
                     return `
                         <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 group card-hover shadow-md hover:shadow-xl">
-                            <div class="h-48 bg-gray-100 dark:bg-gray-700 relative flex items-center justify-center overflow-hidden">
-                                <i class="${p.icon || 'fas fa-code'} text-6xl text-gray-300 dark:text-gray-600 group-hover:text-teal-500 dark:group-hover:text-teal-400 transition-colors"></i>
+                            <div class="h-48 relative overflow-hidden">
+                                <div class="w-full h-full ${p.image ? '' : 'bg-gray-100 dark:bg-gray-700'}"
+                                     style="${p.image ? `background-image:url('${p.image}');background-size:cover;background-position:center;` : ''}">
+                                </div>
+                                ${p.image ? '' : `
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="${p.icon || 'fas fa-code'} text-6xl text-gray-300 dark:text-gray-600"></i>
+                                    </div>
+                                `}
                                 <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                                    ${sourceLink && sourceLink !== '#' ? `
                                     <a href="${sourceLink}" target="_blank" class="p-3 bg-gray-800 rounded-full text-white hover:bg-teal-500 transition-colors" title="Source Code">
                                         <i class="fab fa-github"></i>
-                                    </a>
-                                    <a href="${liveLink}" target="_blank" class="p-3 bg-gray-800 rounded-full text-white hover:bg-blue-500 transition-colors" title="Live Demo">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
+                                    </a>` : ''}
+                                    ${hasLive ? `
+                                    <a href="${liveLink}" target="_blank" class="p-3 bg-gray-800 rounded-full text-white hover:bg-blue-500 transition-colors" title="Watch Video">
+                                        <i class="fas fa-video"></i>
+                                    </a>` : ''}
                                 </div>
                             </div>
                             <div class="p-6">
@@ -1257,3 +1272,4 @@
 </body>
 
 </html>
+                                             
